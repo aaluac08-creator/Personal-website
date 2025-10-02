@@ -3,6 +3,7 @@ import './Carousel.css';
 
 const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [autoPlayEnabled, setAutoPlayEnabled] = useState(autoPlay);
   const autoPlayRef = useRef();
 
   const nextSlide = useCallback(() => {
@@ -17,14 +18,33 @@ const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
     setActiveSlide(index);
   };
 
+  const stopAutoPlay = () => {
+    setAutoPlayEnabled(false);
+  };
+
+  const handleNextSlide = () => {
+    nextSlide();
+    stopAutoPlay();
+  };
+
+  const handlePrevSlide = () => {
+    prevSlide();
+    stopAutoPlay();
+  };
+
+  const handleGoToSlide = (index) => {
+    goToSlide(index);
+    stopAutoPlay();
+  };
+
   useEffect(() => {
-    if (autoPlay) {
+    if (autoPlayEnabled) {
       autoPlayRef.current = nextSlide;
     }
   });
 
   useEffect(() => {
-    if (autoPlay) {
+    if (autoPlayEnabled) {
       const play = () => {
         autoPlayRef.current();
       };
@@ -32,16 +52,16 @@ const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
       const interval = setInterval(play, autoPlayInterval);
       return () => clearInterval(interval);
     }
-  }, [autoPlay, autoPlayInterval]);
+  }, [autoPlayEnabled, autoPlayInterval]);
 
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'ArrowRight') {
-      nextSlide();
+      handleNextSlide();
     }
     if (e.key === 'ArrowLeft') {
-      prevSlide();
+      handlePrevSlide();
     }
-  }, [nextSlide]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -73,15 +93,15 @@ const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
         ))}
       </div>
 
-      <div className="arrow left" onClick={prevSlide}>&#10094;</div>
-      <div className="arrow right" onClick={nextSlide}>&#10095;</div>
+      <div className="arrow left" onClick={handlePrevSlide}>&#10094;</div>
+      <div className="arrow right" onClick={handleNextSlide}>&#10095;</div>
 
       <div className="carousel-buttons">
         {slides.map((slide, index) => (
           <button
             key={index}
             className={`carousel-button ${activeSlide === index ? 'active' : ''}`}
-            onClick={() => goToSlide(index)}
+            onClick={() => handleGoToSlide(index)}
           >
             {slide.title}
           </button>
