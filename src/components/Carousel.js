@@ -55,7 +55,7 @@ const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
       <div
         className="carousel-wrapper"
         style={{
-          transform: `translateX(calc(-${activeSlide * 64}vw + 20vw))`,
+          transform: `translateX(calc(-${activeSlide * 59}vw + 23vw))`,
         }}
       >
         {slides.map((slide, index) => (
