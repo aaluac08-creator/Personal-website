@@ -1,61 +1,70 @@
-import React, { useState } from 'react';
-import './Projects.css';
-import kazakhPhoto from './Kazakh photo.jpg';
+import React from 'react';
+import Carousel from './Carousel';
+import kazakhPhoto from './kazakh-photo.jpg';
+import ModelUN from './ARC-UN-Club.jpg';
+import youtube_channel from './youtube_channel.png';
 
-const projects = [
-  { title: 'On Kazakh culture', company: 'Company A', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', link: 'about:blank', image: kazakhPhoto },
-  { title: 'World cultures', company: 'Company B', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', image: 'https://via.placeholder.com/300x180' },
-  { title: 'Technovasions', company: 'Company C', description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', image: 'https://via.placeholder.com/300x180' },
-  { title: 'Model UN', company: 'Company D', description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', image: 'https://via.placeholder.com/300x180' },
-  { title: 'Youtube videos', company: 'Company E', description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.', image: 'https://via.placeholder.com/300x180' },
-  { title: 'School magazine', company: 'Company F', description: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.', image: 'https://via.placeholder.com/300x180' },
+const slides = [
+  {
+    title: 'On Kazakh culture',
+    description: 'A deep dive into the rich traditions and culture of Kazakhstan.',
+    image: kazakhPhoto,
+    gradientFrom: 'rgba(0, 0, 0, 0.5)',
+    gradientTo: 'rgba(0, 0, 0, 0.1)',
+    link: '#',
+    cta: 'Learn More',
+  },
+  {
+    title: 'World Cultures',
+    description: 'Exploring the diversity of cultures from around the globe.',
+    image: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    gradientFrom: '#667eea',
+    gradientTo: '#764ba2',
+    link: '#',
+    cta: 'Explore Now',
+  },
+  {
+    title: 'Technovations',
+    description: 'A look at the latest innovations in technology.',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    gradientFrom: '#f43f5e',
+    gradientTo: '#be123c',
+    link: '#',
+    cta: 'Discover More',
+  },
+  {
+    title: 'Model UN',
+    description: 'Simulating the United Nations to solve global issues.',
+    image: ModelUN,
+    gradientFrom: '#0ea5e9',
+    gradientTo: '#0284c7',
+    link: '#',
+    cta: 'Join Us',
+  },
+  {
+    title: 'Youtube Videos',
+    description: 'Creating engaging content for the world to see.',
+    image: youtube_channel,
+    gradientFrom: '#f97316',
+    gradientTo: '#ea580c',
+    link: '#',
+    cta: 'Watch Now',
+  },
+  {
+    title: 'School Magazine',
+    description: 'Capturing the stories and moments of our school life.',
+    image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    gradientFrom: '#10b981',
+    gradientTo: '#059669',
+    link: '#',
+    cta: 'Read More',
+  },
 ];
 
 const Projects = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
-
-  const handleDotClick = (index) => {
-    setActiveSlide(index);
-  };
-
   return (
-    <section id="projects" className="projects">
-      <div className="carousel-container">
-        <div
-          className="cards-wrapper"
-          style={{ transform: `translateX(-${activeSlide * 50}%)` }}
-        >
-          <div className="cards-container">
-            {projects.slice(0, 3).map((project, index) => (
-              <div key={index} className="card">
-                <img src={project.image} alt={project.title} className="card-image" />
-                <h3 className="card-title">{project.title}</h3>
-                <p className="card-description">{project.description}</p>
-                <div className="card-button">View Project</div>
-              </div>
-            ))}
-          </div>
-          <div className="cards-container">
-            {projects.slice(3, 6).map((project, index) => (
-              <div key={index + 3} className="card">
-                <img src={project.image} alt={project.title} className="card-image" />
-                <h3 className="card-title">{project.title}</h3>
-                <p className="card-description">{project.description}</p>
-                <div className="card-button">View Project</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="carousel-dots">
-        {[0, 1].map((index) => (
-          <span
-            key={index}
-            className={`dot ${activeSlide === index ? 'active' : ''}`}
-            onClick={() => handleDotClick(index)}
-          ></span>
-        ))}
-      </div>
+    <section id="projects">
+      <Carousel slides={slides} />
     </section>
   );
 };
