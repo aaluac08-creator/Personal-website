@@ -6,13 +6,13 @@ import youtube_channel from './youtube_channel.png';
 
 const slides = [
   {
-    title: 'On Kazakh culture',
-    description: 'A deep dive into the rich traditions and culture of Kazakhstan.',
+    title: 'Kazakh culture',
+    description: 'My blog about the rich traditions and culture of Kazakhstan.',
     image: kazakhPhoto,
     gradientFrom: 'rgba(0, 0, 0, 0.5)',
     gradientTo: 'rgba(0, 0, 0, 0.1)',
-    link: '#',
-    cta: 'Learn More',
+    link: '/blog',
+    cta: 'Explore Articles',
   },
   {
     title: 'World Cultures',
@@ -25,7 +25,7 @@ const slides = [
   },
   {
     title: 'Technovations',
-    description: 'A look at the latest innovations in technology.',
+    description: 'My first baby steps into the tech via Technovations club.',
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     gradientFrom: '#f43f5e',
     gradientTo: '#be123c',
@@ -34,7 +34,7 @@ const slides = [
   },
   {
     title: 'Model UN',
-    description: 'Simulating the United Nations to solve global issues.',
+    description: 'Thoughts and experiences from my Model UN participation.',
     image: ModelUN,
     gradientFrom: '#0ea5e9',
     gradientTo: '#0284c7',
@@ -43,7 +43,7 @@ const slides = [
   },
   {
     title: 'Youtube Videos',
-    description: 'Creating engaging content for the world to see.',
+    description: 'My personal youtube channel with various content.',
     image: youtube_channel,
     gradientFrom: '#f97316',
     gradientTo: '#ea580c',
@@ -52,7 +52,7 @@ const slides = [
   },
   {
     title: 'School Magazine',
-    description: 'Capturing the stories and moments of our school life.',
+    description: 'My journey on starting a school magazine from scratch.',
     image: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     gradientFrom: '#10b981',
     gradientTo: '#059669',

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import './Carousel.css';
 
 const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
@@ -87,7 +88,11 @@ const Carousel = ({ slides, autoPlay = true, autoPlayInterval = 5000 }) => {
             <div className="slide-content">
               <h2 className="slide-headline">{slide.title}</h2>
               <p className="slide-subheading">{slide.description}</p>
-              <a href={slide.link} className="slide-cta">{slide.cta}</a>
+              {slide.link.startsWith('/') ? (
+                <Link to={slide.link} className="slide-cta">{slide.cta}</Link>
+              ) : (
+                <a href={slide.link} className="slide-cta" target="_blank" rel="noopener noreferrer">{slide.cta}</a>
+              )}
             </div>
           </div>
         ))}
