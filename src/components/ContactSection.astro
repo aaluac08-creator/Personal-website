@@ -1,0 +1,19 @@
+﻿---
+const { contact, Content } = Astro.props;
+---
+<section id="contact" class="section">
+  <div class="contact-card">
+    <h2>{contact.title}</h2>
+    {Content && <Content />}
+    <div class="contact-actions">
+      <a class="email-link" href={`mailto:${contact.email}`}>{contact.ctaLabel}</a>
+      <div class="social-links">
+        {contact.socialLinks.map((link) => (
+          <a href={link.href} target="_blank" rel="noreferrer noopener">
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+﻿# Portfolio Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An Astro-powered personal site for Alua. All copy lives in MDX files with frontmatter so updates can be made without touching component code.
 
-## Available Scripts
+## Tech Stack
+- Astro 4 with the MDX integration
+- Static content collections in `src/content`
+- Lightweight Astro components for section layouts
 
-In the project directory, you can run:
+## Local Development
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+3. Open http://localhost:4321 to view the site. Changes to MDX or Astro files refresh automatically.
 
-### `npm start`
+## Project Structure
+- `astro.config.mjs` – Astro configuration and MDX integration
+- `public/images/` – static assets referenced by MDX frontmatter
+- `src/content/hero|about|projects|contact|blog` – editable MDX documents with metadata
+- `src/layouts/` – shared page chrome
+- `src/components/` – presentational sections that consume MDX data
+- `src/pages/` – page routes (`/`, `/blog`, and dynamic blog entries)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Editing Content
+- Hero text: `src/content/hero/main.mdx`
+- About section body and highlights: `src/content/about/about.mdx`
+- Projects carousel cards: `src/content/projects/*.mdx`
+- Contact details and socials: `src/content/contact/main.mdx`
+- Blog posts: `src/content/blog/*.mdx`
+- Blog page intro: `src/content/pages/blog-page.mdx`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Update the frontmatter values (title, summary, dates, images, etc.) or the MDX body to change what appears on the site.
 
-### `npm test`
+## Adding a Blog Post
+1. Copy an existing file in `src/content/blog/` and rename it using a slug (`my-new-story.mdx`).
+2. Fill out the frontmatter fields (`title`, `excerpt`, `author`, `date`, `readTime`, `image`).
+3. Write the article in Markdown/MDX under the frontmatter block.
+4. Run `npm run build` to verify formatting and ensure the slug generates a page.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Build and Deploy
+Create a production build with:
+```bash
+npm run build
+```
+The generated static site is output to the `dist/` directory and can be deployed to any static host (Netlify, Vercel, GitHub Pages, etc.).

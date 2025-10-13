@@ -1,0 +1,29 @@
+﻿---
+import ProjectsCarousel from "./ProjectsCarousel.astro";
+
+const { intro, projects = [] } = Astro.props;
+const slides = projects.map((project) => ({
+  title: project.title,
+  description: project.description,
+  image: project.image ?? null,
+  gradientFrom: project.gradientFrom ?? "rgba(37, 99, 235, 0.6)",
+  gradientTo: project.gradientTo ?? "rgba(79, 70, 229, 0.85)",
+  link: project.link ?? null,
+  cta: project.cta ?? null
+}));
+---
+<section id="projects" class="section projects-section">
+  <div class="projects-header">
+    {intro && (
+      <>
+        <h2>{intro.title}</h2>
+        <p>{intro.description}</p>
+      </>
+    )}
+  </div>
+  {slides.length > 0 ? (
+    <ProjectsCarousel slides={slides} />
+  ) : (
+    <p>No projects to display at the moment.</p>
+  )}
+</section>

@@ -1,0 +1,112 @@
+﻿---
+const { hero } = Astro.props;
+const heroRoles = Array.isArray(hero.roles) ? hero.roles : [];
+const rolesJson = JSON.stringify(heroRoles);
+---
+<section id="hero" class="hero">
+  <div>
+    <h1>{hero.heading}</h1>
+    <div
+      class="hero-typewriter"
+      data-roles={rolesJson}
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span class="hero-typewriter-text"></span>
+      <span class="hero-typewriter-cursor" aria-hidden="true"></span>
+    </div>
+    <noscript>
+      <ul class="hero-roles">
+        {heroRoles.map((role) => (
+          <li>{role}</li>
+        ))}
+      </ul>
+    </noscript>
+    <p class="hero-tagline">{hero.tagline}</p>
+    {hero.description.map((line) => (
+      <p class="hero-description">{line}</p>
+    ))}
+    <a class="cta-btn" href={hero.cta.href}>
+      <span class="cta-label">{hero.cta.label}</span>
+    </a>
+  </div>
+  <div class="hero-image">
+    <img src={hero.image} alt={`Portrait of ${hero.name}`} loading="lazy" />
+  </div>
+</section>
+
+<script type="module">
+  const setupTypewriter = () => {
+    const containers = document.querySelectorAll(
+      ".hero-typewriter[data-roles]"
+    );
+
+    containers.forEach((container) => {
+      const textNode = container.querySelector(".hero-typewriter-text");
+      if (!textNode) {
+        return;
+      }
+
+      let roles;
+      try {
+        roles = JSON.parse(container.dataset.roles || "[]");
+      } catch (error) {
+        console.error("hero typewriter JSON parse", error);
+        return;
+      }
+
+      if (!Array.isArray(roles) || roles.length === 0) {
+        return;
+      }
+      textNode.textContent = "";
+
+      const typingSpeed = 95;
+      const deletingSpeed = 55;
+      const holdDuration = 1500;
+
+      let roleIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
+      let timeoutId;
+
+      const tick = () => {
+        const currentRole = roles[roleIndex] ?? "";
+
+        if (!deleting) {
+          charIndex = Math.min(charIndex + 1, currentRole.length);
+          textNode.textContent = currentRole.slice(0, charIndex);
+
+          if (charIndex === currentRole.length) {
+            timeoutId = window.setTimeout(() => {
+              deleting = true;
+              tick();
+            }, holdDuration);
+            return;
+          }
+        } else {
+          charIndex = Math.max(charIndex - 1, 0);
+          textNode.textContent = currentRole.slice(0, charIndex);
+
+          if (charIndex === 0) {
+            deleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+          }
+        }
+
+        const delay = deleting ? deletingSpeed : typingSpeed;
+        timeoutId = window.setTimeout(tick, delay);
+      };
+
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(tick, typingSpeed);
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupTypewriter, {
+      once: true
+    });
+  } else {
+    setupTypewriter();
+  }
+</script>

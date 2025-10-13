@@ -1,0 +1,204 @@
+﻿---
+const { slides = [] } = Astro.props;
+const serialized = JSON.stringify(slides);
+---
+<div
+  class="projects-carousel"
+  data-carousel
+  data-slide-count={slides.length}
+  data-slides={serialized}
+  tabindex="0"
+  aria-roledescription="carousel"
+  aria-label="Highlighted projects"
+>
+  <button
+    class="carousel-control carousel-control--prev"
+    type="button"
+    data-carousel-prev
+    aria-label="View previous project"
+  >
+    <span aria-hidden="true">&lt;</span>
+  </button>
+  <div class="projects-carousel-track" data-carousel-track>
+    {slides.map((project, index) => {
+      const gradientFrom = project.gradientFrom ?? "#1f2937";
+      const gradientTo = project.gradientTo ?? "#0f172a";
+      const mediaValue = project.image ? `url("${project.image}")` : "none";
+      const initialOffset = index;
+      return (
+        <article
+          class={`carousel-slide${index === 0 ? " is-active" : ""}`}
+          data-carousel-slide
+          data-index={index}
+          style={`--card-gradient-from: ${gradientFrom}; --card-gradient-to: ${gradientTo}; --card-media: ${mediaValue}; --offset: ${initialOffset}; --abs-offset: ${Math.abs(initialOffset)}; --direction: ${initialOffset === 0 ? 0 : 1};`}
+          aria-hidden={index === 0 ? "false" : "true"}
+        >
+          <div class="carousel-card">
+            <div class="carousel-card-body">
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              {project.link && project.cta ? (
+                <a class="carousel-link" href={project.link}>
+                  {project.cta}
+                </a>
+              ) : null}
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+  <button
+    class="carousel-control carousel-control--next"
+    type="button"
+    data-carousel-next
+    aria-label="View next project"
+  >
+    <span aria-hidden="true">&gt;</span>
+  </button>
+  <div class="carousel-dots" role="tablist">
+    {slides.map((project, index) => (
+      <button
+        type="button"
+        class={`carousel-dot${index === 0 ? " is-active" : ""}`}
+        data-carousel-dot
+        data-index={index}
+        role="tab"
+        aria-label={`Go to slide ${index + 1}`}
+        aria-pressed={index === 0 ? "true" : "false"}
+      />
+    ))}
+  </div>
+</div>
+
+{slides.length > 1 ? (
+  <script type="module">
+    const initProjectsCarousels = () => {
+      const carousels = document.querySelectorAll('[data-carousel]');
+      carousels.forEach((carousel) => {
+        const slides = Array.from(
+          carousel.querySelectorAll('[data-carousel-slide]')
+        );
+        if (slides.length === 0) {
+          return;
+        }
+
+        const dots = Array.from(
+          carousel.querySelectorAll('[data-carousel-dot]')
+        );
+        const prevBtn = carousel.querySelector('[data-carousel-prev]');
+        const nextBtn = carousel.querySelector('[data-carousel-next]');
+        let currentIndex = 0;
+        let timerId = null;
+        let autoPlay = slides.length > 1;
+
+        const getLogicalOffset = (slideIndex) => {
+          let offset = slideIndex - currentIndex;
+          const half = Math.floor(slides.length / 2);
+          if (offset > half) {
+            offset -= slides.length;
+          } else if (offset < -half) {
+            offset += slides.length;
+          }
+          return offset;
+        };
+
+        const updateSlides = () => {
+          slides.forEach((slide, index) => {
+            const offset = getLogicalOffset(index);
+            const absOffset = Math.abs(offset);
+            slide.style.setProperty('--offset', offset.toString());
+            slide.style.setProperty('--abs-offset', absOffset.toString());
+            slide.style.setProperty('--direction', Math.sign(offset).toString());
+            slide.classList.toggle('is-active', index === currentIndex);
+            slide.setAttribute('aria-hidden', index === currentIndex ? 'false' : 'true');
+          });
+
+          dots.forEach((dot, index) => {
+            const isActive = index === currentIndex;
+            dot.classList.toggle('is-active', isActive);
+            dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+        };
+
+        const goTo = (nextIndex, triggeredByUser = false) => {
+          const total = slides.length;
+          currentIndex = ((nextIndex % total) + total) % total;
+          updateSlides();
+          if (triggeredByUser) {
+            stopAutoPlay();
+          }
+        };
+
+        const goNext = (user = false) => goTo(currentIndex + 1, user);
+        const goPrev = (user = false) => goTo(currentIndex - 1, user);
+
+        const stopAutoPlay = () => {
+          if (timerId !== null) {
+            window.clearInterval(timerId);
+            timerId = null;
+          }
+          autoPlay = false;
+        };
+
+        const startAutoPlay = () => {
+          if (!autoPlay || slides.length < 2) {
+            return;
+          }
+          if (timerId) {
+            window.clearInterval(timerId);
+          }
+          timerId = window.setInterval(() => {
+            goNext();
+          }, 5000);
+        };
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => goNext(true));
+        }
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => goPrev(true));
+        }
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const target = Number.parseInt(dot.dataset.index || '0', 10);
+            goTo(target, true);
+          });
+        });
+
+        const cancelAuto = () => {
+          if (!autoPlay) {
+            return;
+          }
+          stopAutoPlay();
+        };
+
+        ['pointerdown', 'keydown', 'touchstart', 'focusin'].forEach((evt) => {
+          carousel.addEventListener(evt, cancelAuto, { once: true });
+        });
+
+        carousel.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowRight') {
+            goNext(true);
+            event.preventDefault();
+          } else if (event.key === 'ArrowLeft') {
+            goPrev(true);
+            event.preventDefault();
+          }
+        });
+
+        updateSlides();
+        startAutoPlay();
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProjectsCarousels);
+    } else {
+      initProjectsCarousels();
+    }
+  </script>
+) : null}
+
+
