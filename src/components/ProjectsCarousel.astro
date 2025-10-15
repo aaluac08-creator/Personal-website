@@ -88,9 +88,14 @@ const serialized = JSON.stringify(slides);
         );
         const prevBtn = carousel.querySelector('[data-carousel-prev]');
         const nextBtn = carousel.querySelector('[data-carousel-next]');
+        const track = carousel.querySelector('[data-carousel-track]');
         let currentIndex = 0;
         let timerId = null;
         let autoPlay = slides.length > 1;
+        let pointerActive = false;
+        let pointerId = null;
+        let dragStartX = 0;
+        const dragThreshold = 45;
 
         const getLogicalOffset = (slideIndex) => {
           let offset = slideIndex - currentIndex;
@@ -158,6 +163,54 @@ const serialized = JSON.stringify(slides);
         }
         if (prevBtn) {
           prevBtn.addEventListener('click', () => goPrev(true));
+        }
+
+        if (track) {
+          const resetPointer = () => {
+            pointerActive = false;
+            pointerId = null;
+          };
+
+          track.addEventListener('pointerdown', (event) => {
+            if (event.pointerType !== 'touch' && event.pointerType !== 'pen') {
+              return;
+            }
+            pointerActive = true;
+            pointerId = event.pointerId;
+            dragStartX = event.clientX;
+            track.setPointerCapture(pointerId);
+          });
+
+          track.addEventListener('pointermove', (event) => {
+            if (!pointerActive || event.pointerId !== pointerId) {
+              return;
+            }
+            const deltaX = event.clientX - dragStartX;
+            if (Math.abs(deltaX) < dragThreshold) {
+              return;
+            }
+            if (deltaX > 0) {
+              goPrev(true);
+            } else {
+              goNext(true);
+            }
+            track.releasePointerCapture(pointerId);
+            resetPointer();
+          });
+
+          track.addEventListener('pointerup', (event) => {
+            if (event.pointerId === pointerId) {
+              track.releasePointerCapture(pointerId);
+              resetPointer();
+            }
+          });
+
+          track.addEventListener('pointercancel', () => {
+            if (pointerId !== null) {
+              track.releasePointerCapture(pointerId);
+            }
+            resetPointer();
+          });
         }
 
         dots.forEach((dot) => {
