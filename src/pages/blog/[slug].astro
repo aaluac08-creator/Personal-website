@@ -27,6 +27,7 @@ const formatter = new Intl.DateTimeFormat("en", { dateStyle: "long" });
       </div>
     </header>
     <img src={post.data.image} alt={post.data.title} loading="lazy" />
+    <p class="post-lead">{post.data.excerpt}</p>
     <rendered.Content />
   </article>
 </MainLayout>

@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
   font-family: 'Cassandra';
   src: url('/fonts/CassandraPersonalUseRegular.ttf') format('truetype');
   font-weight: 400;
@@ -101,6 +101,14 @@ main {
   white-space: nowrap;
   text-decoration: none;
   display: inline-block;
+}
+
+.site-title:hover,
+.site-title:focus {
+  background: linear-gradient(110deg, #f1c4d4 0%, #f8dde6 45%, #ffffff 85%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 12px rgba(18, 60, 105, 0.45);
 }
 
 
@@ -228,6 +236,10 @@ main {
 .section p {
   color: #123C69;
   line-height: 1.7;
+}
+
+.project-details p + p {
+  margin-top: 1.25rem;
 }
 
 .about-grid {
@@ -453,11 +465,48 @@ main {
   margin: 2rem 0;
 }
 
-.blog-post article {
-  display: grid;
-  gap: 1.5rem;
-  color: #123C69;
-  line-height: 1.75;
+
+.blog-post .post-lead {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.5rem;
+  font-style: italic;
+  color: #AC3B61;
+  background: rgba(237, 199, 183, 0.38);
+  border-left: 4px solid #AC3B61;
+  border-radius: 14px;
+  position: relative;
+  line-height: 1.7;
+}
+
+.blog-post .post-lead::before,
+.blog-post .post-lead::after {
+  position: absolute;
+  font-style: normal;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #AC3B61;
+}
+
+.blog-post .post-lead::before {
+  content: '“';
+  top: -0.6rem;
+  left: 0.8rem;
+}
+
+.blog-post .post-lead::after {
+  content: '”';
+  bottom: -0.6rem;
+  right: 0.8rem;
+}.blog-post .post-lead::before {
+  content: '“';
+  top: -0.4rem;
+  left: 0.75rem;
+}
+
+.blog-post .post-lead::after {
+  content: '”';
+  bottom: -0.4rem;
+  right: 0.75rem;
 }
 
 footer {
@@ -702,8 +751,9 @@ footer {
   letter-spacing: 0.02em;
   border-radius: 999px;
   transition: background 160ms ease;
-  margin-bottom: 0%!important;
+  
 }
+
 
 
 

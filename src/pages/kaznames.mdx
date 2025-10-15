@@ -1,0 +1,42 @@
+---
+layout: ../layouts/MainLayout.astro
+title: "Kaznames.info — Names Explorer"
+description: "Overview of the interactive names-website project that powers Kazakh name insights."
+---
+
+<section class="section project-details">
+  <h1>Kazakh Names Explorer Project</h1>
+  <p>
+    This companion project extends Kaznames.info with an interactive experience built in React. It brings
+    decades of Kazakh name registrations to life by animating how popular choices shift from month to month,
+    spotlighting cultural influences and emerging trends that are easy to miss in static tables.
+  </p>
+  <p>
+    The app ingests the archival dataset stored in <code>C:\Users\ching\Documents\gemini-projects\names-website\public\data</code>
+    and transforms it into a bar chart race that advances through time. A shared playback engine synchronizes
+    ranking changes, color transitions, and smooth easing so that each step feels cohesive rather than jarring.
+    When I pause on a specific month, contextual tooltips and summary totals make it simple to compare the
+    relative rise of each name.
+  </p>
+  <p>
+    A second view, the Name Trend Explorer, focuses on one name at a time. It charts monthly counts, highlights
+    peak moments, and surfaces transliteration variants so that families can see how a name evolved across
+    regions and languages. Built-in language support (Kazakh, Russian, and English) uses the i18n utilities to
+    keep labels consistent with the visitor’s preference.
+  </p>
+  <p>
+    To try the current build, follow the <a href="https://kaznames.info/names-explorer" rel="noopener">Names Explorer prototype</a>
+    link. I will wire it to the live deployment once the hosting pipeline is finalized.
+  </p>
+  <p>
+    <em>Future image placeholder: Animated leaderboard showing the top ten girls' names in July 1998.</em>
+  </p>
+  <p>
+    <em>Future image placeholder: Trend line for the name "Aruzhan" with bilingual labels.</em>
+  </p>
+  <p>
+    Upcoming work includes polishing accessibility for screen-reader cues, expanding the dataset with regional
+    filters, and adding narrative callouts that pair with the visuals. Updates will appear here first so I can
+    iterate on the copy before embedding the final screenshots and illustrations.
+  </p>
+</section>
