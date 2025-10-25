@@ -711,18 +711,19 @@ footer {
   top: 50%;
   left: 50%;
   width: min(680px, 82vw);
-  transform: translate(-50%, -50%) translateX(calc(var(--offset, 0) * 60%))
-    scale(calc(1 - min(var(--abs-offset, 0) * 0.12, 0.38)));
-  opacity: calc(1 - min(var(--abs-offset, 0) * 0.28, 0.75));
-  filter: blur(calc(var(--abs-offset, 0) * 1.8px));
-  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 420ms ease, filter 420ms ease;
+  transform: translate3d(-50%, -50%, 0) translateX(calc(var(--offset, 0) * 58%))
+    scale(calc(1 - min(var(--abs-offset, 0) * 0.085, 0.32)));
+  opacity: calc(1 - min(var(--abs-offset, 0) * 0.22, 0.65));
+  filter: blur(calc(var(--abs-offset, 0) * 1.2px));
+  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 520ms cubic-bezier(0.16, 1, 0.3, 1), filter 520ms ease;
+  will-change: transform, opacity, filter;
   z-index: calc(25 - var(--abs-offset, 0) * 2);
   pointer-events: none;
 }
 
 .carousel-slide.is-active {
-  transform: translate(-50%, -50%) translateX(0) scale(1);
+  transform: translate3d(-50%, -50%, 0) translateX(0) scale(1);
   opacity: 1;
   filter: blur(0);
   pointer-events: auto;
@@ -732,6 +733,7 @@ footer {
 .carousel-card {
   position: relative;
   height: 100%;
+  min-height: 350px;
   padding: clamp(2.5rem, 4vw, 3.75rem);
   border-radius: 30px;
   display: flex;
@@ -894,8 +896,9 @@ footer {
 
   .carousel-slide {
     width: 88vw;
-    transform: translate(-50%, -50%) translateX(calc(var(--offset, 0) * 70%))
-      scale(calc(1 - min(var(--abs-offset, 0) * 0.08, 0.28)));
+    transform: translate3d(-50%, -50%, 0)
+      translateX(calc(var(--offset, 0) * 68%))
+      scale(calc(1 - min(var(--abs-offset, 0) * 0.065, 0.24)));
   }
 
   .carousel-control {
@@ -945,11 +948,4 @@ footer {
   transition: background 160ms ease;
   
 }
-
-
-
-
-
-
-
 

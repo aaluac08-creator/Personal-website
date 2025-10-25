@@ -1,42 +1,110 @@
 ---
 layout: ../layouts/MainLayout.astro
-title: "Kaznames.info — Names Explorer"
+title: "Kaznames.info — building my first website"
 description: "Overview of the interactive names-website project that powers Kazakh name insights."
 ---
 
-<section class="section project-details">
-  <h1>Kazakh Names Explorer Project</h1>
+<section class="section blog-post">
+  <div class="post-header">
+    <h1><a href="https://kaznames.info" target="_blank" rel="noopener">Kaznames.info</a>: building my first website</h1>
+    <div class="post-meta">
+      <span class="author"></span>
+      <span class="date"></span>
+      <span class="read-time"></span>
+    </div>
+  </div>
   <p>
-    This companion project extends Kaznames.info with an interactive experience built in React. It brings
-    decades of Kazakh name registrations to life by animating how popular choices shift from month to month,
-    spotlighting cultural influences and emerging trends that are easy to miss in static tables.
+    My goal was to learn coding and AI by working on a project — building my first website. My father gave me an   idea: analyzing baby names and their popularity trends could reveal fascinating insights about a country, especially Kazakhstan. What were the most popular names when I was born? Has my name ever been widely used? Why do certain names suddenly rise in popularity and then disappear?
   </p>
   <p>
-    The app ingests the archival dataset stored in <code>C:\Users\ching\Documents\gemini-projects\names-website\public\data</code>
-    and transforms it into a bar chart race that advances through time. A shared playback engine synchronizes
-    ranking changes, color transitions, and smooth easing so that each step feels cohesive rather than jarring.
-    When I pause on a specific month, contextual tooltips and summary totals make it simple to compare the
-    relative rise of each name.
+    It sounded like a fun topic to explore, so I decided to create my first website about popular names in Kazakhstan: <b><a href="https://kaznames.info" target="_blank" rel="noopener">kaznames.info</a></b>.
+  </p>
+  <h3>Obtaining the Data</h3>
+  <p>
+    The official statistics website of Kazakhstan (<a href="https://stat.gov.kz/ru/instuments/name/" target="_blank" rel="noopener">stat.gov.kz</a>) 
+    publishes the top 20 most popular baby names for every month, which provided an excellent data source for 
+    this project. However, the site's structure presented challenges. The interface appears dated and relies 
+    on Ajax technology in a way that made automated data collection difficult.
   </p>
   <p>
-    A second view, the Name Trend Explorer, focuses on one name at a time. It charts monthly counts, highlights
-    peak moments, and surfaces transliteration variants so that families can see how a name evolved across
-    regions and languages. Built-in language support (Kazakh, Russian, and English) uses the i18n utilities to
-    keep labels consistent with the visitor’s preference.
+    I needed to automate the extraction process rather than manually copying data from decades of records. 
+    After considerable effort understanding how their system functioned, I successfully scraped the entire 
+    dataset and saved it in CSV format. Following that, I transliterated all names from Cyrillic to English 
+    and obtained the meaning of each one. 
+  </p>
+  <h3>The Website</h3>
+  <p>
+    The site offers both English and Russian versions that users can easily toggle between. I wanted to make 
+    it accessible to audiences both within Kazakhstan and internationally.
+  </p>
+  <h3>Section 1: Monthly Top 20</h3>
+  <p>
+    This feature allows users to select any year and month to view the most popular names from that period. 
+    Naturally, I first checked June 2008, the month I was born.
   </p>
   <p>
-    To try the current build, follow the <a href="https://kaznames.info/names-explorer" rel="noopener">Names Explorer prototype</a>
-    link. I will wire it to the live deployment once the hosting pipeline is finalized.
+    The results were not surprising: my name, Alua, was not on the list. In fact, it has never appeared in the 
+    top 20. Even within Kazakhstan, my name is quite rare. The most popular girl's name when I was born was 
+    Aruzhan, which is my cousin's name.
+  </p>
+  <h3>Section 2: Name Trend Explorer</h3>
+  <p>
+    This section enables users to search for any name and examine how its popularity has evolved over time. 
+    When I searched for Aruzhan, the site displayed the name's meaning - 'pure soul' or 'noble spirit,' from 'aru' (pure) and 'zhan' (soul), along with comprehensive statistics: 
+    when it first entered the top 20, when it was last seen there, the total number of months it remained in 
+    the rankings, when it peaked, and whether it ever reached the number one position.
   </p>
   <p>
-    <em>Future image placeholder: Animated leaderboard showing the top ten girls' names in July 1998.</em>
+    The data revealed that Aruzhan was the most popular girl's name in Kazakhstan for 136 months -- more than 
+    ten years. The site also generates a chart showing the name's rank over time. Given that the dataset spans 
+    nearly 100 years with monthly data points, I implemented a range slider allowing users to focus on specific 
+    time periods of interest.
+  </p>
+  <h3>Insights from the Data</h3>
+  <p>
+    The data showed that Names are not merely labels 
+    -- they reflect the broader social and historical context of their time.
   </p>
   <p>
-    <em>Future image placeholder: Trend line for the name "Aruzhan" with bilingual labels.</em>
+    My mother has a friend named Indira who was born in 1985. The name Indira is not originally Kazakh, Russian, 
+    or from any other major ethnic group in Kazakhstan. According to the data, this name did not appear in the 
+    top 20 until November 1984, when it suddenly entered the rankings.
   </p>
   <p>
-    Upcoming work includes polishing accessibility for screen-reader cues, expanding the dataset with regional
-    filters, and adding narrative callouts that pair with the visuals. Updates will appear here first so I can
-    iterate on the copy before embedding the final screenshots and illustrations.
+    After researching, I discovered that Indira Gandhi, the Prime Minister of India, was assassinated on 
+    October 31, 1984. The event was apparently covered extensively in the USSR, so extensively that the name 
+    Indira became popular in Kazakhstan. The trend did not fade quickly either -- the name remained in the 
+    top 20 until 1990, reaching its peak in November 1988 when it was the seventh most popular girl's name.
   </p>
+  <p>
+    Another interesting pattern emerged with the name Mayra, which originates from Arabic meaning "beloved." 
+    However, in Kazakhstan, because the name sounds similar to the word for May, parents were significantly 
+    more likely to give this name to babies born in May. The graph shows clear spikes during May each year, 
+    with the name rarely appearing in the top 20 during other months.
+  </p>
+  <p>
+    There are many other patterns I am currently exploring. I plan to dedicate another post to these insights 
+    where I can discuss them in greater detail.
+  </p>
+  <h3>Reflections</h3>
+  <p>
+    Building kaznames.info taught me that data can reveal narratives I had not anticipated. Every name carries 
+    a history, and every trend has an explanation. It also revealed that my parents chose a name for me that 
+    is uncommon.
+  </p>
+  <p>
+    I am proud of this project. It is my first complete website, and it connects me to my culture in an 
+    unexpected way. I learn a lot about web developement, working on the terminal, github, hosting website, utilize AI... The process of analyzing this data has given me a deeper appreciation for how names serve 
+    as markers of cultural memory and social change.
+  </p>
+  <p>
+    If you are interested in how names reflect history and culture, I invite you to explore 
+    <a href="https://kaznames.info" target="_blank" rel="noopener">kaznames.info</a>. Whether you are Kazakh 
+    or simply curious about the intersection of data and cultural trends, the site offers a window into how 
+    Kazakhstan has changed over the past century.
+  </p>
+    <h4>References</h4>
+  <ul>
+    <li>Statistics Committee of Kazakhstan. (n.d.). Popular names by month. <a href="https://stat.gov.kz/ru/instuments/name/" target="_blank" rel="noopener">https://stat.gov.kz/ru/instuments/name/</a></li>
+  </ul>
 </section>

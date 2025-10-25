@@ -1,4 +1,4 @@
-﻿---
+---
 const { slides = [] } = Astro.props;
 const serialized = JSON.stringify(slides);
 ---
@@ -38,9 +38,15 @@ const serialized = JSON.stringify(slides);
               <h3>{project.title}</h3>
               <p>{project.description}</p>
               {project.link && project.cta ? (
-                <a class="carousel-link" href={project.link}>
-                  {project.cta}
-                </a>
+                project.link === '#' ? (
+                  <button class="carousel-link" data-popup-trigger={project.title}>
+                    {project.cta}
+                  </button>
+                ) : (
+                  <a class="carousel-link" href={project.link}>
+                    {project.cta}
+                  </a>
+                )
               ) : null}
             </div>
           </div>
@@ -71,6 +77,47 @@ const serialized = JSON.stringify(slides);
   </div>
 </div>
 
+<div id="popup" class="popup">
+  <p>This section is under construction</p>
+</div>
+
+<style>
+  .popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #EEE2DC;
+    color: #123C69;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  }
+
+  .popup p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+</style>
+
+<script>
+  const popup = document.getElementById('popup');
+  const popupTriggers = document.querySelectorAll('[data-popup-trigger]');
+
+  popupTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      popup.style.display = 'block';
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 3000);
+    });
+  });
+</script>
+
 {slides.length > 1 ? (
   <script type="module">
     const initProjectsCarousels = () => {
@@ -96,6 +143,12 @@ const serialized = JSON.stringify(slides);
         let pointerId = null;
         let dragStartX = 0;
         const dragThreshold = 45;
+        const transitionDuration = 620;
+        let isAnimating = false;
+        let animationTimeoutId = null;
+        let pendingTarget = null;
+
+        carousel.dataset.carouselDirection = carousel.dataset.carouselDirection || 'forward';
 
         const getLogicalOffset = (slideIndex) => {
           let offset = slideIndex - currentIndex;
@@ -126,13 +179,59 @@ const serialized = JSON.stringify(slides);
           });
         };
 
-        const goTo = (nextIndex, triggeredByUser = false) => {
+        const resolveDirection = (fromIndex, toIndex) => {
           const total = slides.length;
-          currentIndex = ((nextIndex % total) + total) % total;
+          const forwardDistance = (toIndex - fromIndex + total) % total;
+          const backwardDistance = (fromIndex - toIndex + total) % total;
+          if (forwardDistance === backwardDistance) {
+            return carousel.dataset.carouselDirection || 'forward';
+          }
+          return forwardDistance <= backwardDistance ? 'forward' : 'backward';
+        };
+
+        const beginTransition = (targetIndex, triggeredByUser) => {
+          isAnimating = true;
+          const previousIndex = currentIndex;
+          const direction = resolveDirection(previousIndex, targetIndex);
+          carousel.dataset.carouselDirection = direction;
+          currentIndex = targetIndex;
           updateSlides();
           if (triggeredByUser) {
             stopAutoPlay();
           }
+          window.clearTimeout(animationTimeoutId);
+          animationTimeoutId = window.setTimeout(() => {
+            isAnimating = false;
+            if (pendingTarget) {
+              const { index: nextIndex, userInitiated } = pendingTarget;
+              pendingTarget = null;
+              beginTransition(nextIndex, userInitiated);
+            }
+          }, transitionDuration);
+        };
+
+        const goTo = (nextIndex, triggeredByUser = false) => {
+          if (slides.length === 0) {
+            return;
+          }
+          const total = slides.length;
+          const normalized = ((nextIndex % total) + total) % total;
+          if (normalized === currentIndex) {
+            if (triggeredByUser) {
+              stopAutoPlay();
+            }
+            return;
+          }
+
+          if (isAnimating) {
+            pendingTarget = { index: normalized, userInitiated: triggeredByUser };
+            if (triggeredByUser) {
+              stopAutoPlay();
+            }
+            return;
+          }
+
+          beginTransition(normalized, triggeredByUser);
         };
 
         const goNext = (user = false) => goTo(currentIndex + 1, user);
@@ -253,5 +352,4 @@ const serialized = JSON.stringify(slides);
     }
   </script>
 ) : null}
-
 
