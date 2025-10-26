@@ -2,15 +2,24 @@
 import ProjectsCarousel from "./ProjectsCarousel.astro";
 
 const { intro, projects = [] } = Astro.props;
-const slides = projects.map((project) => ({
-  title: project.title,
-  description: project.description,
-  image: project.image ?? null,
-  gradientFrom: project.gradientFrom ?? "rgba(37, 99, 235, 0.6)",
-  gradientTo: project.gradientTo ?? "rgba(79, 70, 229, 0.85)",
-  link: project.link ?? null,
-  cta: project.cta ?? null
-}));
+const slides = projects.map((project) => {
+  // Transform image paths to be relative to CSS file location (_astro/) when they're local images
+  let processedImage = project.image;
+  if (processedImage && !processedImage.startsWith('http') && !processedImage.startsWith('/')) {
+    // For local images, we need to go up one directory from _astro/ to reach the images/
+    processedImage = `../${processedImage}`;
+  }
+  
+  return {
+    title: project.title,
+    description: project.description,
+    image: processedImage,
+    gradientFrom: project.gradientFrom ?? "rgba(37, 99, 235, 0.6)",
+    gradientTo: project.gradientTo ?? "rgba(79, 70, 229, 0.85)",
+    link: project.link ?? null,
+    cta: project.cta ?? null
+  };
+});
 ---
 <section id="projects" class="section projects-section">
   <div class="projects-header">
