@@ -7,6 +7,7 @@ const { title = "Alua's website", description = "Portfolio site for Alua" } = As
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="/Personal-website/" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <slot name="head" />
@@ -16,10 +17,10 @@ const { title = "Alua's website", description = "Portfolio site for Alua" } = As
       <header class="site-header">
         <a class="site-title" href="/">Alua's website</a>
         <nav class="site-nav">
-          <a href="/Personal-website/#hero">Home</a>
-          <a href="/Personal-website/#projects">Projects</a>
-          <a href="/Personal-website/blog">Blog</a>
-          <a href="/Personal-website/#contact">Contact</a>
+          <a href="/#hero">Home</a>
+          <a href="/#projects">Projects</a>
+          <a href="/blog">Blog</a>
+          <a href="/#contact">Contact</a>
         </nav>
       </header>
       <main>
