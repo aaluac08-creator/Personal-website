@@ -81,7 +81,29 @@ const serialized = JSON.stringify(slides);
   <p>This section is under construction</p>
 </div>
 
+<style>
+  .popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #EEE2DC;
+    color: #123C69;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    max-width: 320px;
+    text-align: center;
+  }
 
+  .popup p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+</style>
 
 <script>
   const popup = document.getElementById('popup');
@@ -90,11 +112,26 @@ const serialized = JSON.stringify(slides);
   popupTriggers.forEach(trigger => {
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       popup.style.display = 'block';
-      setTimeout(() => {
-        popup.style.display = 'none';
-      }, 3000);
     });
+  });
+
+  // Close popup when clicking anywhere in the window except inside the popup
+  window.addEventListener('click', function(event) {
+    if (popup.style.display === 'block' && !popup.contains(event.target)) {
+      popup.style.display = 'none';
+    }
+  });
+  
+  // Close popup when scrolling
+  window.addEventListener('scroll', function() {
+    popup.style.display = 'none';
+  });
+  
+  // Prevent closing when clicking inside the popup content
+  popup.addEventListener('click', function(event) {
+    event.stopPropagation();
   });
 </script>
 
