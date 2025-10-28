@@ -38,12 +38,24 @@ const { contact, Content } = Astro.props;
   const btn = document.getElementById('say-hello-btn');
   const span = document.getElementsByClassName('close-btn')[0];
   const body = document.body;
+  let scrollPosition;
 
   btn.onclick = function() {
+    // Store the current scroll position
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
     modal.style.display = 'block';
-    body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    
+    // Apply multiple methods to prevent scrolling
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollPosition}px`;
+    body.style.width = '100%';
+    
     body.classList.add('modal-open'); // Add class for additional styling if needed
     document.addEventListener('keydown', handleEscapeKey); // Add escape key listener
+    // Prevent scrolling when modal is open
+    document.addEventListener('scroll', preventScroll, { passive: false });
   }
 
   span.onclick = function() {
@@ -58,15 +70,31 @@ const { contact, Content } = Astro.props;
 
   function closeModal() {
     modal.style.display = 'none';
-    body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+    
+    // Remove the styles that were added to prevent scrolling
+    body.style.overflow = '';
+    body.style.position = '';
+    body.style.top = '';
+    body.style.width = '';
+    
     body.classList.remove('modal-open'); // Remove class when modal is closed
     document.removeEventListener('keydown', handleEscapeKey); // Remove escape key listener
+    document.removeEventListener('scroll', preventScroll);
+    
+    // Restore the original scroll position
+    window.scrollTo(0, scrollPosition);
   }
 
   function handleEscapeKey(event) {
     if (event.key === 'Escape') {
       closeModal();
     }
+  }
+  
+  function preventScroll(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
   }
 </script>
 
@@ -176,14 +204,9 @@ const { contact, Content } = Astro.props;
     font-size: 1.1rem;
   }
   
-  /* Extra style for when modal is open to ensure scrolling is prevented */
+  /* Extra style for when modal is open as a backup method */
   body.modal-open {
-    position: fixed !important;
     overflow: hidden !important;
-    height: 100% !important;
-    width: 100% !important;
-    top: 0 !important;
-    left: 0 !important;
   }
 </style>
 
