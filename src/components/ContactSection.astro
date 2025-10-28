@@ -37,18 +37,35 @@ const { contact, Content } = Astro.props;
   const modal = document.getElementById('contact-modal');
   const btn = document.getElementById('say-hello-btn');
   const span = document.getElementsByClassName('close-btn')[0];
+  const body = document.body;
 
   btn.onclick = function() {
     modal.style.display = 'block';
+    body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    body.classList.add('modal-open'); // Add class for additional styling if needed
+    document.addEventListener('keydown', handleEscapeKey); // Add escape key listener
   }
 
   span.onclick = function() {
-    modal.style.display = 'none';
+    closeModal();
   }
 
   window.onclick = function(event) {
     if (event.target == modal) {
-      modal.style.display = 'none';
+      closeModal();
+    }
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+    body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+    body.classList.remove('modal-open'); // Remove class when modal is closed
+    document.removeEventListener('keydown', handleEscapeKey); // Remove escape key listener
+  }
+
+  function handleEscapeKey(event) {
+    if (event.key === 'Escape') {
+      closeModal();
     }
   }
 </script>
@@ -57,24 +74,32 @@ const { contact, Content } = Astro.props;
   .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1000; /* Sit on top - higher z-index */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    overflow: auto; /* Enable scroll if needed - the JavaScript handles scrolling prevention */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.5); /* Black w/ more opacity */
   }
 
   .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 5% auto; /* Reduced margin from top for better view on all devices */
     padding: 20px;
     border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
+    width: 90%; /* Increased responsiveness */
+    max-width: 500px; /* Max width for larger screens */
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative;
+    animation: modalopen 0.4s; /* Animation for modal opening */
+  }
+
+  @keyframes modalopen {
+    from {opacity: 0; transform: translateY(-60px);}
+    to {opacity: 1; transform: translateY(0);}
   }
 
   .close-btn {
@@ -82,11 +107,16 @@ const { contact, Content } = Astro.props;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 5px;
   }
 
   .close-btn:hover,
   .close-btn:focus {
-    color: black;
+    color: #000;
     text-decoration: none;
     cursor: pointer;
   }
@@ -105,6 +135,8 @@ const { contact, Content } = Astro.props;
     border: 1px solid #ccc;
     width: 100%;
     box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
   }
 
   button[type="submit"] {
@@ -117,6 +149,7 @@ const { contact, Content } = Astro.props;
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
+    font-size: 16px;
   }
 
   button[type="submit"]:hover {
@@ -141,6 +174,14 @@ const { contact, Content } = Astro.props;
   .popup p {
     margin: 0;
     font-size: 1.1rem;
+  }
+  
+  /* Extra style for when modal is open to ensure scrolling is prevented */
+  body.modal-open {
+    position: fixed;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
   }
 </style>
 
