@@ -230,9 +230,39 @@ const { contact, Content } = Astro.props;
       youtubeLink.addEventListener('click', function(event) {
         event.preventDefault();
         youtubePopup.style.display = 'block';
+        
+        // Auto-hide the popup after 3 seconds if user doesn't interact
         setTimeout(function() {
-          youtubePopup.style.display = 'none';
+          if (youtubePopup.style.display === 'block') {
+            youtubePopup.style.display = 'none';
+          }
         }, 3000);
+      });
+
+      // Close popup when clicking anywhere in the window except inside the popup
+      window.addEventListener('click', function(event) {
+        if (youtubePopup.style.display === 'block' && !youtubePopup.contains(event.target)) {
+          youtubePopup.style.display = 'none';
+        }
+      });
+      
+      // Close popup when scrolling
+      window.addEventListener('scroll', function() {
+        if (youtubePopup.style.display === 'block') {
+          youtubePopup.style.display = 'none';
+        }
+      });
+      
+      // Close popup when key is pressed
+      window.addEventListener('keydown', function() {
+        if (youtubePopup.style.display === 'block') {
+          youtubePopup.style.display = 'none';
+        }
+      });
+      
+      // Prevent closing when clicking inside the popup content
+      youtubePopup.addEventListener('click', function(event) {
+        event.stopPropagation();
       });
     } else {
       console.log('YouTube link or popup not found');
