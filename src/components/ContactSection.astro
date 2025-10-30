@@ -13,8 +13,7 @@ const { contact, Content } = Astro.props;
             href={link.href} 
             target="_blank" 
             rel="noreferrer noopener" 
-            class={link.label === 'YouTube' ? 'youtube-link' : ''}
-            data-social-label={link.label.toLowerCase()}
+            id={link.label.toLowerCase().includes('youtube') ? 'youtube-link' : ''}
           >
             {link.label}
           </a>
@@ -217,13 +216,7 @@ const { contact, Content } = Astro.props;
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Try multiple possible selectors for the YouTube link
-    const youtubeLink = document.querySelector('.youtube-link') || 
-                       document.querySelector('[data-social-label="youtube"]') ||
-                       document.querySelector('#youtube-link') ||
-                       document.querySelector('a[href*="youtube.com"]') ||
-                       document.querySelector('a[href*="youtu.be"]');
-    
+    const youtubeLink = document.getElementById('youtube-link');
     const youtubePopup = document.getElementById('youtube-popup');
 
     if (youtubeLink && youtubePopup) {
@@ -264,11 +257,6 @@ const { contact, Content } = Astro.props;
       youtubePopup.addEventListener('click', function(event) {
         event.stopPropagation();
       });
-    } else {
-      console.log('YouTube link or popup not found');
-      console.log('YouTube link element:', document.querySelector('.youtube-link'));
-      console.log('Popup element:', document.getElementById('youtube-popup'));
-      console.log('All social links:', document.querySelectorAll('.social-links a'));
     }
   });
 </script>
