@@ -1,4 +1,4 @@
-﻿---
+---
 const { contact, Content } = Astro.props;
 ---
 <section id="contact" class="section">
@@ -8,9 +8,7 @@ const { contact, Content } = Astro.props;
     <div class="contact-actions">
       <button class="email-link" id="say-hello-btn">{contact.ctaLabel}</button>
       <div class="social-links">
-        {contact.socialLinks
-          .filter(link => !link.label.toLowerCase().includes('youtube'))
-          .map((link) => (
+        {contact.socialLinks.map((link) => (
           <a 
             href={link.href} 
             target="_blank" 
@@ -210,5 +208,6 @@ const { contact, Content } = Astro.props;
     overflow: hidden !important;
   }
 </style>
+
 
 
