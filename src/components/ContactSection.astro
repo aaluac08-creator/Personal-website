@@ -13,7 +13,8 @@ const { contact, Content } = Astro.props;
             href={link.href} 
             target="_blank" 
             rel="noreferrer noopener" 
-            id={link.label === 'YouTube' ? 'youtube-link' : ''}
+            class={link.label === 'YouTube' ? 'youtube-link' : ''}
+            data-social-label={link.label.toLowerCase()}
           >
             {link.label}
           </a>
@@ -210,20 +211,35 @@ const { contact, Content } = Astro.props;
   }
 </style>
 
-<div id="youtube-popup" class="popup">
+<div id="youtube-popup" class="popup" style="display: none;">
   <p>This section is under construction</p>
 </div>
 
 <script>
-  const youtubeLink = document.getElementById('youtube-link');
-  const youtubePopup = document.getElementById('youtube-popup');
+  document.addEventListener('DOMContentLoaded', function() {
+    // Try multiple possible selectors for the YouTube link
+    const youtubeLink = document.querySelector('.youtube-link') || 
+                       document.querySelector('[data-social-label="youtube"]') ||
+                       document.querySelector('#youtube-link') ||
+                       document.querySelector('a[href*="youtube.com"]') ||
+                       document.querySelector('a[href*="youtu.be"]');
+    
+    const youtubePopup = document.getElementById('youtube-popup');
 
-  youtubeLink.addEventListener('click', function(event) {
-    event.preventDefault();
-    youtubePopup.style.display = 'block';
-    setTimeout(function() {
-      youtubePopup.style.display = 'none';
-    }, 3000);
+    if (youtubeLink && youtubePopup) {
+      youtubeLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        youtubePopup.style.display = 'block';
+        setTimeout(function() {
+          youtubePopup.style.display = 'none';
+        }, 3000);
+      });
+    } else {
+      console.log('YouTube link or popup not found');
+      console.log('YouTube link element:', document.querySelector('.youtube-link'));
+      console.log('Popup element:', document.getElementById('youtube-popup'));
+      console.log('All social links:', document.querySelectorAll('.social-links a'));
+    }
   });
 </script>
 
