@@ -8,12 +8,13 @@ const { contact, Content } = Astro.props;
     <div class="contact-actions">
       <button class="email-link" id="say-hello-btn">{contact.ctaLabel}</button>
       <div class="social-links">
-        {contact.socialLinks.map((link) => (
+        {contact.socialLinks
+          .filter(link => !link.label.toLowerCase().includes('youtube'))
+          .map((link) => (
           <a 
             href={link.href} 
             target="_blank" 
-            rel="noreferrer noopener" 
-            id={link.label.toLowerCase().includes('youtube') ? 'youtube-link' : ''}
+            rel="noreferrer noopener"
           >
             {link.label}
           </a>
@@ -209,56 +210,5 @@ const { contact, Content } = Astro.props;
     overflow: hidden !important;
   }
 </style>
-
-<div id="youtube-popup" class="popup" style="display: none;">
-  <p>This section is under construction</p>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const youtubeLink = document.getElementById('youtube-link');
-    const youtubePopup = document.getElementById('youtube-popup');
-
-    if (youtubeLink && youtubePopup) {
-      youtubeLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        youtubePopup.style.display = 'block';
-        
-        // Auto-hide the popup after 3 seconds if user doesn't interact
-        setTimeout(function() {
-          if (youtubePopup.style.display === 'block') {
-            youtubePopup.style.display = 'none';
-          }
-        }, 3000);
-      });
-
-      // Close popup when clicking anywhere in the window except inside the popup
-      window.addEventListener('click', function(event) {
-        if (youtubePopup.style.display === 'block' && !youtubePopup.contains(event.target)) {
-          youtubePopup.style.display = 'none';
-        }
-      });
-      
-      // Close popup when scrolling
-      window.addEventListener('scroll', function() {
-        if (youtubePopup.style.display === 'block') {
-          youtubePopup.style.display = 'none';
-        }
-      });
-      
-      // Close popup when key is pressed
-      window.addEventListener('keydown', function() {
-        if (youtubePopup.style.display === 'block') {
-          youtubePopup.style.display = 'none';
-        }
-      });
-      
-      // Prevent closing when clicking inside the popup content
-      youtubePopup.addEventListener('click', function(event) {
-        event.stopPropagation();
-      });
-    }
-  });
-</script>
 
 
