@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-website",
+  "version": "0.47.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.5",
+    "astro": "^4.15.6"
+  }
+}

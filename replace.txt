@@ -1,0 +1,2 @@
+--replace-text
+s/Chingiz Abenov/Alua/g

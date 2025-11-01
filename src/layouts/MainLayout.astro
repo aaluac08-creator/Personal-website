@@ -1,0 +1,35 @@
+﻿---
+import "../styles/global.css";
+const { title = "Alua's website", description = "Portfolio site for Alua" } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/images/favicon.ico" />
+    <base href="/Personal-website/" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="site-title" href="/Personal-website/#hero">Alua's website</a>
+        <nav class="site-nav">
+          <a href="/Personal-website/#hero">Home</a>
+          <a href="/Personal-website/#projects">Projects</a>
+          <a href="/Personal-website/blog">Blog</a>
+          <a href="/Personal-website/#contact">Contact</a>
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer>
+        Built with Astro and MDX. Last updated {new Date().getFullYear()}.
+      </footer>
+    </div>
+  </body>
+</html>

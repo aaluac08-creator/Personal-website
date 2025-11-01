@@ -1,0 +1,213 @@
+---
+const { contact, Content } = Astro.props;
+---
+<section id="contact" class="section">
+  <div class="contact-card">
+    <h2>{contact.title}</h2>
+    {Content && <Content />}
+    <div class="contact-actions">
+      <button class="email-link" id="say-hello-btn">{contact.ctaLabel}</button>
+      <div class="social-links">
+        {contact.socialLinks.map((link) => (
+          <a 
+            href={link.href} 
+            target="_blank" 
+            rel="noreferrer noopener"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="contact-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <form action="https://formspree.io/f/mvgwygbn" method="POST">
+      <textarea name="message" placeholder="Say Hello"></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('contact-modal');
+  const btn = document.getElementById('say-hello-btn');
+  const span = document.getElementsByClassName('close-btn')[0];
+  const body = document.body;
+  let scrollPosition;
+
+  btn.onclick = function() {
+    // Store the current scroll position
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
+    modal.style.display = 'block';
+    
+    // Apply multiple methods to prevent scrolling
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollPosition}px`;
+    body.style.width = '100%';
+    
+    body.classList.add('modal-open'); // Add class for additional styling if needed
+    document.addEventListener('keydown', handleEscapeKey); // Add escape key listener
+    // Prevent scrolling when modal is open
+    document.addEventListener('scroll', preventScroll, { passive: false });
+  }
+
+  span.onclick = function() {
+    closeModal();
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      closeModal();
+    }
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+    
+    // Remove the styles that were added to prevent scrolling
+    body.style.overflow = '';
+    body.style.position = '';
+    body.style.top = '';
+    body.style.width = '';
+    
+    body.classList.remove('modal-open'); // Remove class when modal is closed
+    document.removeEventListener('keydown', handleEscapeKey); // Remove escape key listener
+    document.removeEventListener('scroll', preventScroll);
+    
+    // Restore the original scroll position
+    window.scrollTo(0, scrollPosition);
+  }
+
+  function handleEscapeKey(event) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  }
+  
+  function preventScroll(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+</script>
+
+<style>
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top - higher z-index */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed - the JavaScript handles scrolling prevention */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ more opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* Reduced margin from top for better view on all devices */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; /* Increased responsiveness */
+    max-width: 500px; /* Max width for larger screens */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative;
+    animation: modalopen 0.4s; /* Animation for modal opening */
+  }
+
+  @keyframes modalopen {
+    from {opacity: 0; transform: translateY(-60px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  }
+
+  .close-btn:hover,
+  .close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 200px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  button[type="submit"] {
+    background-color: #AC3B61;
+    color: #EEE2DC;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  button[type="submit"]:hover {
+    opacity: 0.8;
+  }
+
+  .popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #EEE2DC;
+    color: #123C69;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  }
+
+  .popup p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  /* Extra style for when modal is open as a backup method */
+  body.modal-open {
+    overflow: hidden !important;
+  }
+</style>
+
+
+

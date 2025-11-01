@@ -1,0 +1,86 @@
+---
+layout: ../layouts/MainLayout.astro
+title: "Kaznames.info — building my first website"
+description: "A summary of the kaznames.info project, a website about popular girls' names in Kazakhstan."
+---
+
+<section class="section blog-post">
+  <div class="post-header">
+    <h1><a href="https://kaznames.info" target="_blank" rel="noopener">Kaznames.info</a>: Project Summary</h1>
+    <div class="post-meta">
+      <span class="author"></span>
+      <span class="date"></span>
+      <span class="read-time"></span>
+    </div>
+  </div>
+
+  <p>
+    The <a href="https://kaznames.info" target="_blank" rel="noopener">**kaznames.info**</a> project was a self-directed effort to learn **coding and AI** by building a website about popular names in **Kazakhstan** to discover historical and cultural insights.
+  </p>
+
+  ---
+
+  <h3>Data Acquisition and Preparation</h3>
+  <ul>
+    <li>
+      The data source was the official statistics website of Kazakhstan (<a href="https://stat.gov.kz/ru/instuments/name/" target="_blank" rel="noopener">stat.gov.kz</a>), which publishes the **top 20 popular baby names** monthly.
+    </li>
+    <li>
+      Due to the site's dated interface and complex **Ajax technology**, automated data extraction was challenging.
+    </li>
+    <li>
+      The solution involved successfully **scraping the entire dataset** for nearly 100 years of data, saving it as a CSV, and then **transliterating** names and obtaining their meanings.
+    </li>
+  </ul>
+
+  ---
+
+  <h3> Website Features</h3>
+  <p>
+    The site is available in both **English and Russian** for broad accessibility.
+  </p>
+  <ul>
+    <li>
+      **Section 1: Monthly Top 20:** Allows users to select any month and year.
+      <p class="note">
+        *Personal Check:* The author's name, **Alua**, has never appeared in the top 20, confirming its rarity.
+      </p>
+    </li>
+    <li>
+      **Section 2: Name Trend Explorer:** Enables searching for any name to view its popularity evolution over time.
+      <p>
+        Features include displaying the name's meaning (e.g., Aruzhan means 'pure soul'), **comprehensive statistics** (total months in Top 20, peak rank), and a chart with a **range slider** for detailed analysis.
+      </p>
+    </li>
+  </ul>
+
+  ---
+
+  <h3>Key Insights</h3>
+  <p>
+    Data revealed that name trends are powerful reflections of social and historical events:
+  </p>
+  <ul>
+    <li>
+      **Indira Trend:** The name **Indira** suddenly entered the Top 20 in **November 1984**, immediately following **Indira Gandhi's assassination** (Oct 31, 1984), and remained popular until 1990.
+    </li>
+    <li>
+      **Mayra Trend:** The name **Mayra** shows **clear popularity spikes every May**, attributed to its phonetic similarity to the word for the month of May in Kazakhstan.
+    </li>
+  </ul>
+
+  ---
+
+  <h3>Reflection</h3>
+  <p>
+    This project served as my **first complete website**, providing deep learning in web development, terminal use, GitHub, hosting, and AI application. It connected me to my culture and demonstrated how data can reveal **unanticipated historical narratives**.
+  </p>
+  <p>
+    *Call to action:* Explore the data and trends at <a href="https://kaznames.info" target="_blank" rel="noopener">kaznames.info</a>.
+  </p>
+
+  <h4>References</h4>
+  <ul>
+    <li>Statistics Committee of Kazakhstan. (n.d.). Popular names by month. <a href="https://stat.gov.kz/ru/instuments/name/" target="_blank" rel="noopener">https://stat.gov.kz/ru/instuments/name/</a></li>
+  </ul>
+</section>

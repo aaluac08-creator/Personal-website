@@ -1,0 +1,32 @@
+﻿---
+import MainLayout from "../layouts/MainLayout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+const heroEntry = await getEntryBySlug("hero", "main");
+const aboutEntry = await getEntryBySlug("about", "about");
+const contactEntry = await getEntryBySlug("contact", "main");
+
+const projectEntries = await getCollection("projects");
+const projectsIntro = projectEntries.find((entry) => !entry.data.image);
+const projectCards = projectEntries
+  .filter((entry) => !!entry.data.image)
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  .map((entry) => entry.data);
+
+const aboutRendered = aboutEntry ? await aboutEntry.render() : null;
+const contactRendered = contactEntry ? await contactEntry.render() : null;
+---
+<MainLayout>
+  {heroEntry && <HeroSection hero={heroEntry.data} />}
+  {aboutEntry && (
+    <AboutSection about={aboutEntry.data} Content={aboutRendered?.Content} />
+  )}
+  <ProjectsSection intro={projectsIntro?.data} projects={projectCards} />
+  {contactEntry && (
+    <ContactSection contact={contactEntry.data} Content={contactRendered?.Content} />
+  )}
+</MainLayout>
