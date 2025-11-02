@@ -7,5 +7,10 @@ export default defineConfig({
   integrations: [mdx()],
   markdown: {
     smartypants: false
+  },
+  vite: {
+    define: {
+      'process.env': {}
+    }
   }
 });
