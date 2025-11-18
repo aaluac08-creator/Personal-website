@@ -37,7 +37,7 @@ const serialized = JSON.stringify(slides);
             <div class="carousel-card-body">
               <h3>{project.title}</h3>
               <p>{project.description}</p>
-              {project.link && project.cta ? (
+              {project.cta && project.link ? (
                 project.link === '#' ? (
                   <button class="carousel-link" data-popup-trigger={project.title}>
                     {project.cta}
@@ -48,6 +48,15 @@ const serialized = JSON.stringify(slides);
                   </a>
                 )
               ) : null}
+              {project.ctas && project.ctas.length > 0 && (
+                <div class="carousel-links">
+                  {project.ctas.map((ctaItem) => (
+                    <a class="carousel-link" href={ctaItem.href}>
+                      {ctaItem.label}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </article>
@@ -102,6 +111,12 @@ const serialized = JSON.stringify(slides);
   .popup p {
     margin: 0;
     font-size: 1.1rem;
+  }
+
+  .carousel-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 </style>
 

@@ -38,6 +38,12 @@ const projects = defineCollection({
     gradientTo: z.string().optional(),
     link: z.string().optional(),
     cta: z.string().optional(),
+    ctas: z.array(
+      z.object({
+        label: z.string(),
+        href: z.string()
+      })
+    ).optional(),
     order: z.number().optional()
   })
 });
