@@ -161,9 +161,30 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "blog": {
+"Beauty-Japan.mdx": {
+	id: "Beauty-Japan.mdx";
+  slug: "beauty-japan";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "How-islam-regarded.mdx": {
 	id: "How-islam-regarded.mdx";
   slug: "how-islam-regarded";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"Reflection-Uighur.mdx": {
+	id: "Reflection-Uighur.mdx";
+  slug: "reflection-uighur";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
+"The-Story-of-the-Abenov-Family.mdx": {
+	id: "The-Story-of-the-Abenov-Family.mdx";
+  slug: "the-story-of-the-abenov-family";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
